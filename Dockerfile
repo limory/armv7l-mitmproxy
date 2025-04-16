@@ -1,7 +1,7 @@
 FROM python AS build
 
 ARG TAG=latest
-RUN mkdir -p /tmp/cargo && \
+RUN --privileged mkdir -p /tmp/cargo && \
     mount -t tmpfs -o size=1G tmpfs /tmp/cargo && \
     export CARGO_HOME=/tmp/cargo
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && source $HOME/.cargo/env && \
