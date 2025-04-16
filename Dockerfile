@@ -1,8 +1,10 @@
 FROM python AS build
 
-ARG TAG=11.1.2
-ENV PATH="/root/.cargo/bin:${PATH}" 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+ARG TAG=latest
+RUN mkdir -p /tmp/cargo && \
+    mount -t tmpfs -o size=1G tmpfs /tmp/cargo && \
+    export CARGO_HOME=/tmp/cargo
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && source $HOME/.cargo/env && \
 	pip wheel --wheel-dir=/wheels mitmproxy$([[ ${TAG} != "latest" ]] && echo "==${TAG}" || echo "") && \
     	find /root/.cache/pip/wheels -type f -name "*.whl" -exec cp {} /wheels \;&& \
 	pip --no-cache-dir install --no-index --find-links=/wheels mitmproxy && \
