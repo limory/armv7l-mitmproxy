@@ -1,8 +1,7 @@
-FROM python AS build
+FROM python:3.13-bullseye AS build
 
 ARG TAG=latest
-ENV CARGO_HOME=/tmp/.cargo
-ENV PATH="${CARGO_HOME}/bin:${PATH}"
+ENV PATH="/root/.cargo/bin:${PATH}"
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
 	pip wheel --wheel-dir=/wheels mitmproxy$([[ ${TAG} != "latest" ]] && echo "==${TAG}" || echo "") && \
     	find /root/.cache/pip/wheels -type f -name "*.whl" -exec cp {} /wheels \;&& \
