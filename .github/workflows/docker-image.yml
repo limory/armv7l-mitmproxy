@@ -39,8 +39,8 @@ jobs:
           docker rm $CONTAINER_ID
 
       # 上传构建产物
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload binary
+        uses: actions/upload-artifact@master
         with:
           name: mitmproxy-standalone-binary
           path: /root/.mitmproxy
