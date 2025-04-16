@@ -1,4 +1,4 @@
-FROM python:3.13-bullseye AS build
+FROM python AS build
 
 ARG TAG=latest
 ENV PATH="/root/.cargo/bin:${PATH}"
