@@ -1,8 +1,8 @@
 FROM python AS build
 
-ARG TAG=11.1.3
+ARG TAG=11.1.2
 ENV PATH="/root/.cargo/bin:${PATH}" 
-RUN rm -rf /root/.cargo/* && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
 	pip wheel --wheel-dir=/wheels mitmproxy$([[ ${TAG} != "latest" ]] && echo "==${TAG}" || echo "") && \
     	find /root/.cache/pip/wheels -type f -name "*.whl" -exec cp {} /wheels \;&& \
 	pip --no-cache-dir install --no-index --find-links=/wheels mitmproxy && \
