@@ -1,9 +1,9 @@
 # syntax = docker/dockerfile:experimental
 FROM python AS build
 
-ARG TAG=latest
+ARG TAG=10.4.2
 ENV PATH="/root/.cargo/bin:${PATH}"
-RUN --security=insecure mkdir -p /root/.cargo && chmod 777 /root/.cargo && mount -t tmpfs -o size=1G,inode32 none /root/.cargo && \
+RUN --security=insecure mkdir -p /root/.cargo && chmod 777 /root/.cargo && mount -t tmpfs none /root/.cargo && \
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
 	pip install mitmproxy && \
 	pip install pyinstaller && \
