@@ -1,9 +1,10 @@
-# syntax = docker/dockerfile:1-labs
+# syntax = docker/dockerfile:experimental
 FROM python AS build
 
 ARG TAG=latest
 ENV PATH="/root/.cargo/bin:${PATH}"
 RUN --security=insecure mkdir -p /root/.cargo && chmod 777 /root/.cargo && mount -t tmpfs none /root/.cargo
+RUN cat /proc/mounts|grep tmpfs
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
 	pip wheel --wheel-dir=/wheels mitmproxy$([[ ${TAG} != "latest" ]] && echo "==${TAG}" || echo "") && \
     	find /root/.cache/pip/wheels -type f -name "*.whl" -exec cp {} /wheels \;&& \
