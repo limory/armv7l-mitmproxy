@@ -26,8 +26,7 @@ jobs:
           platforms: ${{ env.PLATFORMS }}
           push: false
           tags: mitmproxy:standalone
-          allow:
-            -security.insecure
+          allow: security.insecure
       - name: Extract binary from image
         run: |
           #加载镜像
