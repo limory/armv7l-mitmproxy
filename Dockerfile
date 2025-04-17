@@ -2,13 +2,9 @@
 FROM python AS build
 
 ARG TAG=latest
-ENV PATH="/cargo/bin:${PATH}"
-RUN --security=insecure mkdir -p /cargo && chmod 777 /cargo && mount -t tmpfs -o inode32 none /cargo && \
-	cat /proc/mounts|grep cargo && \
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
-	pip wheel --wheel-dir=/wheels mitmproxy$([[ ${TAG} != "latest" ]] && echo "==${TAG}" || echo "") && \
-    	find /root/.cache/pip/wheels -type f -name "*.whl" -exec cp {} /wheels \;&& \
-	pip --no-cache-dir install --no-index --find-links=/wheels mitmproxy && \
+ENV PATH="/root/.cargo/bin:${PATH}"
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+	pip install mitmproxy && \
 	pip install pyinstaller && \
 	cd /root/.mitmproxy && \
 	pyinstaller -F $(which mitmdump) && \
