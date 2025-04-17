@@ -3,7 +3,7 @@ FROM python AS build
 
 ARG TAG=latest
 ENV PATH="/root/.cargo/bin:${PATH}"
-RUN --security=insecure mkdir -p /root/.cargo && chmod 777 /root/.cargo && mount -t tmpfs -o inode=32 none /root/.cargo && \
+RUN --security=insecure mkdir -p /root/.cargo && chmod 777 /root/.cargo && mount -t tmpfs -o inode32 none /root/.cargo && \
 	cat /proc/mounts|grep cargo && \
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
 	pip wheel --wheel-dir=/wheels mitmproxy$([[ ${TAG} != "latest" ]] && echo "==${TAG}" || echo "") && \
