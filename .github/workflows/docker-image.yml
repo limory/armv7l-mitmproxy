@@ -36,7 +36,7 @@ jobs:
           CONTAINER_ID=$(docker create mitmproxy:standalone)
 
           # 从容器中复制文件到主机
-          docker cp $CONTAINER_ID:/root/.mitmproxy /root
+          docker cp $CONTAINER_ID:/mitm/release/dist /root
 
           # 删除临时容器
           docker rm $CONTAINER_ID
@@ -46,4 +46,4 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: mitmproxy-standalone-binary
-          path: /root/.mitmproxy
+          path: /root/dist
