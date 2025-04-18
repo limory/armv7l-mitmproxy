@@ -4,6 +4,7 @@ FROM python AS build
 ARG TAG=10.4.2
 ENV PATH="/root/.cargo/bin:${PATH}"
 RUN --security=insecure mkdir -p /root/.cargo && chmod 777 /root/.cargo && mount -t tmpfs none /root/.cargo && \
+	apt-get update && apt-get install -y build-essential && \
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
  	pip install click cryptography pyinstaller && \
 	git clone https://github.com/mitmproxy/mitmproxy.git /mitm && cd /mitm && python -u release/build.py standalone-binaries
